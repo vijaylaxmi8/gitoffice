@@ -7,7 +7,7 @@
 
         <!-- FLATPICKR CSS -->
         <link rel="stylesheet" href="{{asset('build/assets/libs/flatpickr/flatpickr.min.css')}}">
-        
+
 @endsection
 
 @section('content')
@@ -17,21 +17,21 @@
                     <!-- Start::main-content -->
                     <div class="main-content">
 
-                       
+
                         <!-- Page Header -->
                             <div class="block justify-between page-header sm:flex">
                                 <div>
                                     {{-- <h1>Welcome, {{ $staff->fname }}</h1> --}}
                                     <h3 class="text-gray-700 hover:text-gray-900 dark:text-white dark:hover:text-white text-2xl font-medium">Welcome<span class="text-primary"> {{ $staff->fname.' '.$staff->mname.' '.$staff->lname }}</span></h3>
-                                </div>    
-                                <ol class="flex items-center whitespace-nowrap min-w-0"> 
+                                </div>
+                                <ol class="flex items-center whitespace-nowrap min-w-0">
                                     <li class="text-sm">
                                         <a class="flex items-center font-semibold text-primary hover:text-primary dark:text-primary truncate" href="javascript:void(0);">
                                             Research Activities
                                             <i class="ti ti-chevrons-right flex-shrink-0 mx-3 overflow-visible text-gray-300 dark:text-gray-300 rtl:rotate-180"></i>
                                         </a>
                                     </li>
-                                        
+
                                 </ol>
                             </div>
                         <!-- Page Header Close -->
@@ -56,11 +56,11 @@
                                             </div>
                                         @endif
                                     @endif
-                                    @php 
-                                        Illuminate\Support\Facades\Session::forget('return_data'); 
-                                        header("refresh: 2"); 
+                                    @php
+                                        Illuminate\Support\Facades\Session::forget('return_data');
+                                        header("refresh: 2");
                                     @endphp
-                                @endif   
+                                @endif
 
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 <div class="box-header">
                                     {{-- <h4>Research Activities</h4> --}}
                                 </div>
-       
+
                                 <div class="box-body pt-0">
                                     {{-- <nav class="-mb-0.5 flex justify-center space-x-6 rtl:space-x-reverse md:h-full md:w-48" aria-label="Tabs">
                                         <button type="button" class="hs-tab-active:bg-primary hs-tab-active:text-white py-3 px-4 inline-flex items-center gap-2 bg-transparent text-sm font-medium text-center text-gray-500 rounded-sm hover:text-primary  dark:text-white/70 dark:hover:text-white" id="pills-with-brand-color-item-2" data-hs-tab="#pills-with-brand-color-2" aria-controls="pills-with-brand-color-2">
@@ -80,7 +80,7 @@
 
                                     <div class="mt-3">
                                         <!--Start of publications details-->
-                                        
+
                                         {{-- <div id="pills-with-brand-color-2" class="hidden" role="tabpanel" aria-labelledby="pills-with-brand-color-item-2"> --}}
 
                                             <div class="box border-0 shadow-none mb-0">
@@ -90,7 +90,7 @@
                                                 <div class="box-body">
                                                     <button id="publication_btn" data-hs-overlay="#add_publicaitons" class="hs-dropdown-toggle ti-btn ti-btn-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M17 19H19V11H13V19H15V13H17V19ZM3 19V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21H2V19H3ZM7 11V13H9V11H7ZM7 15V17H9V15H7ZM7 7V9H9V7H7Z" fill="rgba(255,255,255,1)"></path></svg>
-                                                            Add Journal Publication 
+                                                            Add Journal Publication
                                                     </button>
                                                     <div id="add_publicaitons" class="hs-overlay hidden ti-modal">
                                                         <div class="hs-overlay-open:mt-7 ti-modal-box mt-0 ease-out lg:!max-w-4xl lg:w-full m-3 md:mx-auto">
@@ -111,7 +111,7 @@
                                                                         </svg>
                                                                     </button>
                                                                     @if(($errors->has('level'))||($errors->has('other_level'))||($errors->has('title'))||($errors->has('date'))||($errors->has('journal'))||($errors->has('publication_type'))||($errors->has('link'))||($errors->has('doi_number'))||($errors->has('role'))||($errors->has('document')))
-                                                                       
+
                                                                         <script>
                                                                             //alert('Errror is set');
                                                                             $(window).on('load', function() {
@@ -122,12 +122,12 @@
                                                                                     //alert('conducted clicked');
                                                                                     $('#publication_btn').trigger("click");
 
-                                                                            }); 
+                                                                            });
                                                                         </script>
                                                                     @endif
                                                                 </div>
                                                                 <form  action="{{route('Teaching.research.publications.store')}}" method="post" enctype="multipart/form-data">
-                                                                    @csrf 
+                                                                    @csrf
                                                                     <div class="ti-modal-body">
                                                                         <div class="grid lg:grid-cols-2 gap-2 space-y-2 lg:space-y-0">
                                                                             <div class="max-w-sm space-y-3 pb-6">
@@ -135,11 +135,11 @@
                                                                                 <select class="ti-form-select level pub_level" name="level" id="pub_level">
                                                                                     <option value="#">Choose Level</option>
                                                                                     <option value="Q1">Q1</option>
-                                                                                    <option value="Q2">Q2</option>  
+                                                                                    <option value="Q2">Q2</option>
                                                                                     <option value="Q3">Q3</option>
                                                                                     <option value="Q4">Q4</option>
                                                                                     <option value="SCI">SCI</option>
-                                                                                    <option value="Web of Science">Web of Science</option>  
+                                                                                    <option value="Web of Science">Web of Science</option>
                                                                                     <option value="Scopus Indexed">Scopus Indexed</option>
                                                                                     <option value="UGC General">UGC General</option>
                                                                                     <option value="Other">Other</option>
@@ -167,22 +167,22 @@
                                                                                      <div class="text-red-700">{{ $errors->first('title') }}</div>
                                                                                  @endif
                                                                                 <div id="pub_titleError" class="error text-red-700"></div>
-                                                                            </div>   
+                                                                            </div>
 
                                                                             <div class="flex max-w-sm space-y-3 pb-6">
                                                                                 <label for="" class="ti-form-label font-bold">Date of Publication:<span class="text-red-500">*</span></label>
                                                                                     <div class="px-4 inline-flex items-center min-w-fit ltr:rounded-l-sm rtl:rounded-r-sm border ltr:border-r-0 rtl:border-l-0 border-gray-200 bg-gray-50 dark:bg-black/20 dark:border-white/10">
                                                                                         <span class="text-sm text-gray-500 dark:text-white/70"><i class="ri ri-calendar-line"></i></span>
                                                                                     </div>
-                                                                            
+
                                                                                     <input type="date" name="date" id="pub_dateofpublication"
                                                                                             class="ti-form-input rounded-l-none focus:z-10 flatpickr-input date conf_attended_from_date"
                                                                                               placeholder="Choose date" >
                                                                                     @if($errors->has('date'))
                                                                                          <div class="text-red-700">{{ $errors->first('date') }}</div>
                                                                                      @endif
-                                                                                    <div id="pub_dateofpublicatonError" class="error text-red-700"></div>      
-                                                                            </div>                                                                                 
+                                                                                    <div id="pub_dateofpublicatonError" class="error text-red-700"></div>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="grid lg:grid-cols-2 gap-2 space-y-2 lg:space-y-0">
                                                                             <div class="max-w-sm space-y-3 pb-6">
@@ -200,7 +200,7 @@
                                                                                     <option value="#">Choose One</option>
                                                                                     <option value="Journal">Journal</option>
                                                                                     <option value="Conference Proceeding">Conference Proceeding</option>
-                                                                                    
+
 
                                                                                 </select>
                                                                                 @if($errors->has('publication_typeError'))
@@ -215,10 +215,10 @@
                                                                                 @endif
                                                                                 <div id="pub_doi_numberError" class="error text-red-700"></div>
                                                                             </div>
-                                                                            
+
                                                                         </div>
                                                                         <div class="grid lg:grid-cols-2 gap-2 space-y-2 lg:space-y-0">
-                                                                            
+
                                                                             <div class="max-w-sm space-y-3 pb-6">
                                                                                 <label for="" class="ti-form-label font-bold">Link:</label>
                                                                                 <input type="url" id="pub_link" name="link" class="ti-form-input" placeholder="Link Should Be http://www.">
@@ -259,9 +259,9 @@
                                                                                         <div id="pub_documentError" class="error text-red-700"></div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>  
+                                                                            </div>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                     <div class="ti-modal-footer">
                                                                         <button type="button"
@@ -269,11 +269,11 @@
                                                                             data-hs-overlay="#add_publicaitons">
                                                                             Close
                                                                         </button>
-                                                                                        
+
                                                                         <input type="submit" id="publication_add_btn" class="ti-btn  bg-primary text-white hover:bg-primary  focus:ring-primary  dark:focus:ring-offset-white/10" value="Add"/>
-                                                                                    
+
                                                                     </div>
-                                                                </form>  
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -356,7 +356,7 @@
                                                                                                                 <button type="button" class="hs-dropdown-toggle ti-modal-close-btn" data-hs-overlay="#reason_view_modal{{$i}}">
                                                                                                                     <span class="sr-only">Close</span>
                                                                                                                     <svg class="w-3.5 h-3.5" width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                                                                                                                                   <path d="M14 14.252V16.3414C13.3744 16.1203 12.7013 16 12 16C8.68629 16 6 18.6863 6 22H4C4 17.5817 7.58172 14 12 14C12.6906 14 13.3608 14.0875 14 14.252ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11ZM19 17.5858L21.1213 15.4645L22.5355 16.8787L20.4142 19L22.5355 21.1213L21.1213 22.5355L19 20.4142L16.8787 22.5355L15.4645 21.1213L17.5858 19L15.4645 16.8787L16.8787 15.4645L19 17.5858Z"></path></svg>
+                                                                                                                        <path d="M14 14.252V16.3414C13.3744 16.1203 12.7013 16 12 16C8.68629 16 6 18.6863 6 22H4C4 17.5817 7.58172 14 12 14C12.6906 14 13.3608 14.0875 14 14.252ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11ZM19 17.5858L21.1213 15.4645L22.5355 16.8787L20.4142 19L22.5355 21.1213L21.1213 22.5355L19 20.4142L16.8787 22.5355L15.4645 21.1213L17.5858 19L15.4645 16.8787L16.8787 15.4645L19 17.5858Z"></path></svg>
 
                                                                                                                 </button>
                                                                                                             </div>
@@ -389,8 +389,8 @@
                                                                                                         Edit
                                                                                                     </span>
                                                                                             </button>
-                                                            
-                                                        
+
+
                                                                                             <div id="publication_edit_modal{{$i}}" class="hs-overlay hidden ti-modal">
                                                                                                 <div class="hs-overlay-open:mt-7 ti-modal-box mt-0 ease-out lg:!max-w-4xl lg:w-full m-3 md:mx-auto">
                                                                                                     <div class="ti-modal-content">
@@ -415,8 +415,8 @@
                                                                                                                     //alert('123');
                                                                                                                         document.getElementById('btn'+{{old('modal_no')}}).click();
 
-                                                                                                                    };   
-                                                                                                                
+                                                                                                                    };
+
                                                                                                                 </script>
                                                                                                             @endif
                                                                                                         </div>
@@ -432,9 +432,9 @@
                                                                                                                         <select class="ti-form-select level pub_level" name="e_level" id="pub_level" >
                                                                                                                             <option value="#">Choose Level</option>
                                                                                                                             <option value="Q1" {{$pub->level=='Q1'? 'selected':''}}>Q1</option>
-                                                                                                                            <option value="Q2"  {{$pub->level=='Q2'? 'selected':''}}>Q2</option>  
+                                                                                                                            <option value="Q2"  {{$pub->level=='Q2'? 'selected':''}}>Q2</option>
                                                                                                                             <option value="Q3"  {{$pub->level=='Q3'? 'selected':''}}>Q3</option>
-                                                                                                                            <option value="Q4"  {{$pub->level=='Q4'? 'selected':''}}>Q4</option> 
+                                                                                                                            <option value="Q4"  {{$pub->level=='Q4'? 'selected':''}}>Q4</option>
                                                                                                                             <option value="SCI"  {{$pub->level=='SCI'? 'selected':''}}>SCI</option>
                                                                                                                             <option value="Web of Science"  {{$pub->level=='Web of Science'? 'selected':''}}>Web of Science</option>
                                                                                                                             <option value="Scopus Indexed" {{$pub->level=='Scopus Indexed'? 'selected':''}}>Scopus Indexed</option>
@@ -444,7 +444,7 @@
                                                                                                                         @if($errors->has('e_level'))
                                                                                                                             <div class="text-red-700">{{ $errors->first('e_level') }}</div>
                                                                                                                         @endif
-                                                                                                                                                        
+
                                                                                                                     </div>
                                                                                                                     <div class="max-w-sm space-y-3 pb-6" id="pub_other_level" >
                                                                                                                         <label for="" class="ti-form-label font-bold">Other Level:</label>
@@ -462,8 +462,8 @@
                                                                                                                             @if($errors->has('e_title'))
                                                                                                                                 <div class="text-red-700">{{ $errors->first('e_title') }}</div>
                                                                                                                             @endif
-                                                                                                                        
-                                                                                                                    </div>   
+
+                                                                                                                    </div>
                                                                                                                     <div class="flex max-w-sm space-y-3 pb-6">
                                                                                                                         <label for="" class="ti-form-label font-bold">Date :<span class="text-red-500">*</span></label>
                                                                                                                         <div class="px-4 inline-flex items-center min-w-fit ltr:rounded-l-sm rtl:rounded-r-sm border ltr:border-r-0 rtl:border-l-0 border-gray-200 bg-gray-50 dark:bg-black/20 dark:border-white/10">
@@ -475,9 +475,9 @@
                                                                                                                                     required placeholder="Choose date" value="{{$pub->date}}" >
                                                                                                                             @if($errors->has('e_date'))
                                                                                                                                 <div class="text-red-700">{{ $errors->first('e_date') }}</div>
-                                                                                                                        @endif     
+                                                                                                                        @endif
                                                                                                                     </div>
-                                                                                                                                                                                                
+
                                                                                                                 </div>
                                                                                                                 <div class="grid lg:grid-cols-2 gap-2 space-y-2 lg:space-y-0">
                                                                                                                     <div class="max-w-sm space-y-3 pb-6">
@@ -486,21 +486,21 @@
                                                                                                                             @if($errors->has('e_journal'))
                                                                                                                                 <div class="text-red-700">{{ $errors->first('e_journal') }}</div>
                                                                                                                             @endif
-                                                                                                                    </div>  
+                                                                                                                    </div>
                                                                                                                     <div class="max-w-sm space-y-3 pb-6">
                                                                                                                         <label for="" class="ti-form-label font-bold">Publication Type:<span class="text-red-500">*</span></label>
                                                                                                                         <select class="ti-form-select role" name="e_publication_type">
                                                                                                                             <option value="#">Choose One</option>
                                                                                                                             <option value="Journal" {{$pub->publication_type=='Journal'? 'selected': ''}}>Journal</option>
                                                                                                                             <option value="Conference Proceeding" {{$pub->publication_type=='Conference Proceeding'?'selected':''}}>Conference Proceeding</option>
-                                                                                                                            
+
 
                                                                                                                         </select>
                                                                                                                         @if($errors->has('e_publication_type'))
                                                                                                                             <div class="text-red-700">{{ $errors->first('e_publication_type') }}</div>
                                                                                                                         @endif
-                                                                                                        
-                                                                                                                    </div>   
+
+                                                                                                                    </div>
                                                                                                                         <div class="max-w-sm space-y-3 pb-6">
                                                                                                                         <label for="" class="ti-form-label font-bold">DOI Number:<span class="text-red-500">*</span></label>
                                                                                                                         <input type="text" name="e_doi_number" class="ti-form-input" placeholder="Doi Number" id="pub_doi_number" value="{{$pub->doi_number}}">
@@ -509,7 +509,7 @@
                                                                                                                         @endif
                                                                                                                         <div id="pub_doi_numberError" class="error text-red-700"></div>
                                                                                                                     </div>
-                                                                                                                    
+
                                                                                                                 </div>
                                                                                                                 <div class="grid lg:grid-cols-2 gap-2 space-y-2 lg:space-y-0">
                                                                                                                     <div class="max-w-sm space-y-3 pb-6">
@@ -531,7 +531,7 @@
                                                                                                                         @if($errors->has('e_role'))
                                                                                                                             <div class="text-red-700">{{ $errors->first('e_role') }}</div>
                                                                                                                         @endif
-                                                                                                        
+
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                                 <div class="grid lg:grid-cols-2 gap-2 space-y-2 lg:space-y-0">
@@ -549,7 +549,7 @@
                                                                                                                             @endif
                                                                                                                         <div id="docEditError" class="error text-red-700"></div>
                                                                                                                     </div>
-                                                                                                                                            
+
                                                                                                                 </div>
                                                                                                                 <div class="grid lg:grid-cols-2 gap-2 space-y-2 lg:space-y-0">
                                                                                                                    <input type="hidden" name="validation_status" value="updated">
@@ -562,18 +562,18 @@
                                                                                                                     data-hs-overlay="#publication_edit_modal{{$i}}">
                                                                                                                     Close
                                                                                                                 </button>
-                                                                                                                            
+
                                                                                                                 <input type="submit" class="ti-btn  bg-primary text-white hover:bg-primary  focus:ring-primary  dark:focus:ring-offset-white/10" value="Update"/>
-                                                                                                                        
+
                                                                                                             </div>
-                                                                                                        </form>  
+                                                                                                        </form>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="hs-tooltip ti-main-tooltip">
                                                                                             <form action="{{ route('Teaching.research.publications.destroy',$pub->id) }}" method="post">
-                                                                                            
+
                                                                                                 <button onclick="return confirm('Are you Sure')"
                                                                                                     class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-danger">
                                                                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path></svg>
@@ -589,7 +589,7 @@
                                                                                         </div>
                                                                                     </td>
                                                                                 @endif
-                                                                            </tr> 
+                                                                            </tr>
                                                                                 @empty
                                                                                 {{-- <tr>
                                                                                     <td>no records</td>
@@ -597,8 +597,8 @@
                                                                         @endforelse
                                                                     @endif
                                                                 </tbody>
-                                                            </table>  
-                                                        </div>   
+                                                            </table>
+                                                        </div>
                                                 </div>
 
                                             </div>
@@ -606,18 +606,18 @@
                                         {{-- </div> --}}
 
                                         <!--end of publications-->
-                                    </div>                                                                      
+                                    </div>
                                 </div>
                             </div>
                         </div>
                              <!-- End::row-1 -->
-                    </div>    
+                    </div>
                     <!-- End::main-content -->
 
                 </div>
-               
 
-            
+
+
 
 @endsection
 
@@ -655,7 +655,7 @@
                 } else {
                     $('#pub_other_level').hide();
                 }
-                
+
                 });
             });
         </script>
@@ -663,18 +663,18 @@
         <script>
             $(document).ready(function(){
 
-                
+
                     //Validation for publication
-               
+
                     //alert('Hello from jquery');
                     new DataTable('#publication_table');
-                    
+
                     $(document).on('click','.publication_edit_modal_click',function(){
-                        //var 
+                        //var
                         var modal_no = $(this).attr("btn-val");
-                        
+
                         //alert($(this).find('.caste_edit_modal_no').val());
-                        $('.modal_no').val(modal_no); 
+                        $('.modal_no').val(modal_no);
                     });
 
                     function isValidUrl(url) {
@@ -713,7 +713,7 @@
                                 flag = true;
                             }
                         }
-                       
+
                         /////
                         if(pub_doi_number == ''){
                             $('#pub_doi_numberError').text('DOI Number is missing');
@@ -767,7 +767,7 @@
 
                     });
 
-                    
+
                     //export to Excel publication
                     $('#exportToExcel').on('click', function () {
                         var table = $('#publication_table').clone();
@@ -801,15 +801,15 @@
                             link[0].click();
                         }
                     });
-          
+
 
 
             });
         </script>
 
 
-        
-    
-        
+
+
+
 
 @endsection

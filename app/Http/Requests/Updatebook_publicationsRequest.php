@@ -24,7 +24,7 @@ class Updatebook_publicationsRequest extends FormRequest
     {
         return
          [
-           
+
             'ebc_title' => ['required'],
             'ebc_book_level' => ['required', Rule::in(['National', 'International'])],
             'ebc_publisher_name'=>['required'],
@@ -36,7 +36,6 @@ class Updatebook_publicationsRequest extends FormRequest
             // 'bc_chapter_title'=>[''],
             // 'bc_start_page_no'=>['numeric'],
             // 'bc_end_page_no'=>['numeric'],
-
             'document'=>['required','file','mimes:pdf'],
          ];
     }
@@ -61,8 +60,8 @@ class Updatebook_publicationsRequest extends FormRequest
             // 'ebc_start_page_no.numeric'=>'Start page no should contain only numbers',
             // 'ebc_end_page_no.numeric'=>'End page no should contain only numbers',
 
-            
-            
+
+
         ];
     }
 }
