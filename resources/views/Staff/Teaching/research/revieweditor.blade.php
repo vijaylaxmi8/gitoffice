@@ -495,7 +495,6 @@
                                                                                                                             <div id="con_cond_documentError" class="error text-red-700"></div> --}}
                                                                                                                     </div>
                                                                                                                 </div>
-                                                                                                               <input type="hidden" name="validation_status" value="updated">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="ti-modal-footer">
