@@ -31,17 +31,14 @@ class Storereviewer_editorRequest extends FormRequest
             'level'=>['required', Rule::in(['Q1', 'Q2', 'Q3','Q4','SCI','Web of Science','Scopus Indexed','UGC General','Other'])],
             'other_level'=>['sometimes'],
             'category'=>['required', Rule::in(['journal','conference proceeding'])],
-            // 'validation_status'=>[Rule::in(['new','valid','invalid'])],
-            'reason'=>['sometimes'],
-       
-        
+
         ];
     }
 
     public function messages():array
     {
         return
-        [   
+        [
             'title.required'=>'title is required field',
             'journal_name.required'=>'journal name is required filed',
             'publisher_name.required'=>'publisher name is required filed',
@@ -50,9 +47,7 @@ class Storereviewer_editorRequest extends FormRequest
             'level.in'=>'Please select a valid option from the provided choices',
             'category.required'=>'category is required field',
             'category.in'=>'Please select a valid option from the provided choices',
-            'validation_status.required'=>'validation_status is required field',
-            'validation_status.in'=>'Please select a valid option from the provided choices',
-            
+
         ];
     }
 }

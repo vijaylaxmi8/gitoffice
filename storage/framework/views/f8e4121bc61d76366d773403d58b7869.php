@@ -367,7 +367,7 @@
                                                                                                                     fill="currentColor" />
                                                                                                             </svg>
                                                                                                         </button>
-                                                                                                        <?php if((($errors->has('title'))||($errors->has('journal_name'))||($errors->has('publisher_name'))||($errors->has('reviewed_date'))||($errors->has('level'))||($errors->has('other_level')))): ?>
+                                                                                                        <?php if((($errors->has('title'))||($errors->has('journal_name'))||($errors->has('publisher_name'))||($errors->has('reviewed_date'))||($errors->has('level'))||($errors->has('other_level'))||($errors->has('category')))): ?>
                                                                                                             <script>
                                                                                                                 $(window).on('load', function() 
                                                                                                                 {
@@ -481,7 +481,6 @@
                                                                                                                             
                                                                                                                     </div>
                                                                                                                 </div>
-                                                                                                               <input type="hidden" name="validation_status" value="updated">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="ti-modal-footer">
