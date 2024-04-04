@@ -15,13 +15,26 @@ class ScheduledJobs extends Controller
     {
         logger("Teaching vacational running");
         //Teaching Vacational
-        $statement="select staff.id,fname,mname, lname from staff, employee_types, association_staff
-            where staff.id not in (SELECT s.id FROM `staff` s, designation_staff, designations
-            where s.id=designation_staff.staff_id and designation_staff.designation_id=designations.id
-            and designations.isadditional=1 and designations.isvacational='Non-Vacational' and designation_staff.status='active') and
-            employee_types.staff_id=staff.id and association_staff.staff_id=staff.id and
-            employee_types.employee_type='teaching' and (association_staff.association_id=6 or association_staff.association_id=12) and association_staff.status='active'";
-        $staff=DB::select($statement);
+        $statement="select staff.id, fname,mname, lname
+        from staff, employee_types, association_staff
+        where staff.id not in
+        (SELECT s.id
+            FROM `staff` s, designation_staff, designations
+             where s.id=designation_staff.staff_id and
+                    designation_staff.designation_id=designations.id and
+                    designations.isadditional=1 and
+                    designations.isvacational='Non-Vacational' and
+                    designation_staff.status='active') and
+                    employee_types.staff_id=staff.id and
+                    association_staff.staff_id=staff.id and
+                    employee_types.employee_type='teaching' and
+                    (association_staff.association_id in
+                        (select id
+                            from associations
+                            where asso_name='Confirmed' or asso_name='Promotional Probationary')) and
+                    association_staff.status='active'";
+
+            $staff=DB::select($statement);
         $leaves=leave::with('leave_rules')->where('vacation_type','Vacational')->where('max_entitlement','>',0)->where('shortname','not like','SML%')->where('shortname','not like','ML')->where('status','active')->get();
 
         $year=Carbon::now()->year;
@@ -41,7 +54,7 @@ class ScheduledJobs extends Controller
                 }
                 else
                 {
-                    if($l->leave_rules[0]->yearly_leave_entitlements=='Yes')
+                    if($l->leave_rules[0]->carry_forwardable=='Yes')
                     {
                         $accumulated=$pre_year_entltm->accumulated+$pre_year_entltm->entitled_curr_year-$pre_year_entltm->consumed_curr_year;
                     }
@@ -80,11 +93,22 @@ class ScheduledJobs extends Controller
 
                     if($pre_year_entltm==null)
                     {
+
+                        if($l->shortname=='EL')
+                        {
+
+                            $staff_entitlement=$l->leave_staff_entitlements()->attach($st->id,['year'=>$year,'entitled_curr_year'=>0,'wef'=>$year.'-01-01']);
+                        }
+                        else
+                        {
+
                             $staff_entitlement=$l->leave_staff_entitlements()->attach($st->id,['year'=>$year,'entitled_curr_year'=>$l->max_entitlement,'wef'=>$year.'-01-01']);
+                        }
+
                     }
                     else
                     {
-                        if($l->leave_rules[0]->yearly_leave_entitlements=='Yes')
+                        if($l->leave_rules[0]->carry_forwardable=='Yes')
                         {
                             $accumulated=$pre_year_entltm->accumulated+$pre_year_entltm->entitled_curr_year-$pre_year_entltm->consumed_curr_year;
                         }
@@ -100,7 +124,17 @@ class ScheduledJobs extends Controller
                         {
                             $total_encashable=0;
                         }
-                        $staff_entitlement=$st->leave_entitlements()->attach($l->id,['year'=>$year,'entitled_curr_year'=>$l->max_entitlement,'accumulated'=>$accumulated,'total_encashed'=> $total_encashable,'wef'=>$year.'01-01']);
+                        if($l->shortname=='EL')
+                        {
+
+                             $staff_entitlement=$st->leave_entitlements()->attach($l->id,['year'=>$year,'entitled_curr_year'=>0,'accumulated'=>$accumulated,'total_encashed'=> $total_encashable,'wef'=>$year.'01-01']);
+                        }
+                        else
+                        {
+
+                            $staff_entitlement=$st->leave_entitlements()->attach($l->id,['year'=>$year,'entitled_curr_year'=>$l->max_entitlement,'accumulated'=>$accumulated,'total_encashed'=> $total_encashable,'wef'=>$year.'01-01']);
+                        }
+
                     }
             }
 
@@ -133,7 +167,7 @@ class ScheduledJobs extends Controller
                         }
                         else
                         {
-                            if($l->leave_rules[0]->yearly_leave_entitlements=='Yes')
+                            if($l->leave_rules[0]->carry_forwardable=='Yes')
                             {
                                 $accumulated=$pre_year_entltm->accumulated+$pre_year_entltm->entitled_curr_year-$pre_year_entltm->consumed_curr_year;
                             }
@@ -283,26 +317,58 @@ class ScheduledJobs extends Controller
     public function daily_Non_Vacational_EL()
     {
         $year=Carbon::Now()->year;
-        $Non_vacational_EL_leave=leave::with('leave_rules')->where('shortname','EL')->where('status','active')->first();
-      // dd($Non_vacation_EL_leave);
-        $staff_el_entitlements=leave_staff_entitlement::join('designation_staff','designation_staff.staff_id','=','leave_staff_entitlements.staff_id')
-        ->where('leave_staff_entitlements.status','active')
-        ->where('designation_staff.status','active')
-        ->where('leave_staff_entitlements.year',$year)
-        ->where('leave_staff_entitlements.leave_id',$Non_vacational_EL_leave->id)
-        ->whereIn('leave_staff_entitlements.staff_id',function($q) {
-            $q->select('staff_id')
-            ->from('designation_staff')
-            ->where('status','active')
-            ->whereIn('designation_id',function($q1){
-                $q1->select('id')
-                ->from('designations')
-                ->where('isadditional',1)
-                ->where('isvacational','non-vacational')
-                ->where('status','active');
-            });
-        })->get();
-        dd($staff_el_entitlements);
+        $current_month=Carbon::Now()->month;
+        $current_day=Carbon::Now()->day;
+        $Non_vacational_EL_leave=leave::with('leave_rules')->where('shortname','EL')->where('vacation_type','non-vacational')->where('status','active')->first();
 
+        $staff_el_entitlements= leave_staff_entitlement::
+       where('leave_staff_entitlements.leave_id', $Non_vacational_EL_leave->id)
+        ->where('year',$year)
+        ->where('leave_staff_entitlements.status', 'active')
+        ->whereIn('leave_staff_entitlements.staff_id', function ($query) use($year){
+            $query->select('staff_id')
+                ->from('designation_staff')
+                ->where('status','active')
+                ->whereYear('start_date','<',$year)
+                ->whereIn('designation_id', function ($subQuery) {
+                    $subQuery->select('id')
+                        ->from('designations')
+                        ->where('isvacational', 'non-vacational')
+                        ->where('isadditional', 1)
+                        ->where('status', 'active');
+                });
+        })->distinct()
+        ->get();
+       // dd($staff_el_entitlements);
+        foreach($staff_el_entitlements as $s_el_e)
+        {
+            $get_staff_additional_designation=DB::table('designation_staff')
+                ->where('status','active')
+                ->whereYear('start_date','<',$year)
+                ->whereIn('designation_id',function($q){
+                    $q->select('id')
+                        ->from('designations')
+                        ->where('isadditional',1)
+                        ->where('isvacational','non-vacational')
+                        ->where('status','active');
+                })
+                ->where('staff_id',$s_el_e->staff_id)
+                ->orderBy(DB::raw("MONTHNAME(start_date)"))
+                ->select('start_date')
+                ->first();
+                if($get_staff_additional_designation!=null)
+                {
+                     $desingation_start_month=Carbon::parse($get_staff_additional_designation->start_date)->month;
+                    $designation_start_day=Carbon::parse($get_staff_additional_designation->start_date)->day;
+                    if($current_day==$designation_start_day && $current_month==$desingation_start_month)
+                    {
+                        $s_el_e->entitled_curr_year=$Non_vacational_EL_leave->max_entitlement;
+                        $s_el_e->update();
+                    }
+                }
+
+        }
+        logger('day wise entitlement of EL for Teaching Non-Vacational completed');
     }
+
 }

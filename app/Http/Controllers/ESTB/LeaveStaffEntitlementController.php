@@ -18,8 +18,7 @@ class LeaveStaffEntitlementController extends Controller
      */
     public function index()
     {
-       $s=new ScheduledJobs();
-       $s->daily_Non_Vacational_EL();
+
          $year=Carbon::now()->year;
 
         $leave_types=leave::select('shortname')->distinct('shortname')->where('max_entitlement','>',0)->where('shortname','not like','SML%')->where('shortname','not like','ML')->where('status','active')->get();
