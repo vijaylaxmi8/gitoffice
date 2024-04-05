@@ -83,13 +83,8 @@
                                                             Conducted
                                                         </button>
                                                     </nav>
-<<<<<<< HEAD
                                                     </div> --}}
             
-=======
-                                                    </div>
-
->>>>>>> af0a8594636be76858f4f317af11d7b26559ee05
                                                     <div class="mt-3">
                                                         {{-- <div id="horizontal-alignment-1" role="tabpanel" aria-labelledby="horizontal-alignment-item-1"> --}}
                                                             <!--Professional Activity Attended-->
@@ -373,7 +368,7 @@
                                                                                     @if(!isset($export) || !$export)
                                                                                     <td class="font-medium space-x-2 rtl:space-x-reverse">
                                                                                          <!--modal Start Here-->
-                                                                                        <?php if ($act->validation_status === 'invalid'): ?>
+                                                                                        @if ($act->validation_status === 'invalid'): 
                                                                                             <div class="hs-tooltip ti-main-tooltip text-center">
                                                                                                 <button data-hs-overlay="#reason_view_modal{{$i}}"
                                                                                                         class="hs-dropdown-toggle m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-secondary">
@@ -405,7 +400,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        <?php endif; ?>
+                                                                                        @endif
                                                                                         <!--Modal Ends Here-->
                                                                                         <div class="hs-tooltip ti-main-tooltip">
                                                                                             <a href="{{Storage::url('Uploads/Professional_Activity_Attended/'.$act->document)}}" class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-primary" target="_blank" {{$act->document}}>
@@ -663,12 +658,10 @@
                                                                                         </div>
                                                                                     </td>
                                                                                     @endif
-                                                                            </tr>
-                                                                                @empty
-                                                                                <tr>
-                                                                                    <td>no records</td>
                                                                                 </tr>
-                                                                                @endforelse
+                                                                                @empty
+                                                                                
+                                                                            @endforelse
 
                                                                         @endif
 
@@ -763,7 +756,7 @@
                                                                                             <div id="pro_con_organizerNameError" class="error text-red-700"></div>
                                                                                         </div>
                                                                                         <div class="max-w-sm space-y-3 pb-6">
-                                                                                            <label for="" class="ti-form-label font-bold">Co Organizer :</label>
+                                                                                            <label for="" class="ti-form-label font-bold">Co Organizer : <span class="text-red-500">*</span></label>
                                                                                             <input type="text" name="con_co_organizer" class="ti-form-input" placeholder="Co Organizer" id="pro_cond_co_organizer">
                                                                                             @if($errors->has('con_co_organizer'))
                                                                                                 <div class="text-red-700">{{ $errors->first('con_co_organizer') }}</div>
@@ -1261,10 +1254,8 @@
                                                                                     @endif
                                                                                 </tr>
                                                                                 @empty
-                                                                                <tr>
-                                                                                <td>no records</td>
-                                                                                </tr>
-                                                                                @endforelse
+
+                                                                            @endforelse
 
                                                                         @endif
 
@@ -1272,15 +1263,9 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-<<<<<<< HEAD
                                                             <!-- End of tab 2 content Conducted --> 
                                                         {{-- </div> --}}
                                                     </div>    
-=======
-                                                            <!-- End of tab 2 content Conducted -->
-                                                        </div>
-                                                    </div>
->>>>>>> af0a8594636be76858f4f317af11d7b26559ee05
                                             </div>
 
                                         </div>
