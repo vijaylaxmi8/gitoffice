@@ -23,7 +23,7 @@ class staff extends Model
     public function teaching_employee():HasMany
     {
         return $this->hasMany(employee_type::class)->where('status','active')->where('employee_type','Teaching')->take(1);
-       
+
     }
     //fetch all staff departments
     public function departments():BelongsToMany
@@ -84,7 +84,7 @@ class staff extends Model
     {
         return $this->belongsToMany(teaching_payscale::class)->wherePivot('status','active')->withPivot('id','start_date','end_date','status','reason','gcr')->orderByPivot('start_date','desc')->take(1);
     }
-  
+
     //fetch the teaching staff consolidated or fixed pay
     public function consolidated_teaching_pay():HasMany
     {
@@ -156,8 +156,8 @@ class staff extends Model
     {
         return $this->belongsToMany(qualification::class)->withPivot('id','board_university','grade','yop','status')->orderByPivot('yop','desc');
     }
-       
-    /* professional activity attended*/ 
+
+    /* professional activity attended*/
     public function professional_activity_attendee():BelongsToMany
     {
       return $this->belongsToMany(professional_activity_attendee::class);
@@ -174,7 +174,7 @@ class staff extends Model
     {
         return $this->belongsToMany(conferences_attendee:: class);
     }
-    
+
     /*conferences conducted */
     public function conferences_conducted():BelongsToMany
     {
@@ -218,7 +218,7 @@ class staff extends Model
      }
 
      //reviewer/editor
-        
+
     public function reviewer_editor():HasMany
     {
         return $this->hasMany(reviewer_editor::class);
@@ -248,6 +248,6 @@ class staff extends Model
      {
          return $this->belongsToMany(leave::class)->wherePivot('status','active')->withPivot('id','year','entitled_curr_year','accumulated','consumed_curr_year','encashed_curr_year','total_encashed');
      }
-    
-  
+
+
 }
