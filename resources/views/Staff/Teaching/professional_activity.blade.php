@@ -84,7 +84,7 @@
                                                         </button>
                                                     </nav>
                                                     </div> --}}
-            
+
                                                     <div class="mt-3">
                                                         {{-- <div id="horizontal-alignment-1" role="tabpanel" aria-labelledby="horizontal-alignment-item-1"> --}}
                                                             <!--Professional Activity Attended-->
@@ -351,7 +351,7 @@
                                                                                 <tr style="@if($act->validation_status =='invalid') background-color: #ffcccc; @elseif($act->validation_status =='updated') background-color: #fff2cc; @elseif($act->validation_status =='valid') background-color: #ccffcc; @endif">
 
                                                                                     <td><span>{{$i++}}</span></td>
-                                                                                    <td><span>{{$act->egov_id}}</span></td>
+                                                                                    <td><span><a href="{{Storage::url('Uploads/Professional_Activity_Attended/'.$act->document)}}" class="m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-primary" target="_blank" {{$act->document}}>{{$act->egov_id}}</a></span></td>
                                                                                     <td><span>{{$act->title}}</span></td>
                                                                                     <td><span>{{$act->organizer}}</span></td>
                                                                                     <td><span>{{$act->role}}</span></td>
@@ -368,7 +368,7 @@
                                                                                     @if(!isset($export) || !$export)
                                                                                     <td class="font-medium space-x-2 rtl:space-x-reverse">
                                                                                          <!--modal Start Here-->
-                                                                                        @if ($act->validation_status === 'invalid'): 
+                                                                                        @if ($act->validation_status === 'invalid'):
                                                                                             <div class="hs-tooltip ti-main-tooltip text-center">
                                                                                                 <button data-hs-overlay="#reason_view_modal{{$i}}"
                                                                                                         class="hs-dropdown-toggle m-0 hs-tooltip-toggle relative w-8 h-8 ti-btn rounded-full p-0 transition-none focus:outline-none ti-btn-soft-secondary">
@@ -660,7 +660,7 @@
                                                                                     @endif
                                                                                 </tr>
                                                                                 @empty
-                                                                                
+
                                                                             @endforelse
 
                                                                         @endif
@@ -1263,9 +1263,9 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-                                                            <!-- End of tab 2 content Conducted --> 
+                                                            <!-- End of tab 2 content Conducted -->
                                                         {{-- </div> --}}
-                                                    </div>    
+                                                    </div>
                                             </div>
 
                                         </div>
