@@ -366,7 +366,7 @@ class StaffDesignationsController extends Controller
                             $staff_ntpayscale=$staff->ntpayscale()->latest()->get();
                             foreach($staff_ntpayscale as $sntpays)
                             {
-                                if($staff_ntpays->end_date==$staff_fixedntpay->start_date)
+                                if($sntpays->end_date==$staff_fixedntpay->start_date)
                                 {
                                     $sntpays->end_date=$request->start_date;
                                 }
@@ -428,7 +428,7 @@ class StaffDesignationsController extends Controller
                              $staff_ntpayscale=$staff->ntpayscale()->latest()->get();
                              foreach($staff_ntpayscale as $sntpays)
                              {
-                                 if($staff_ntpays->end_date==$staff_fixedntpay->start_date)
+                                 if($sntpays->end_date==$staff_fixedntpay->start_date)
                                  {
                                      $sntpays->end_date=$request->start_date;
                                  }
@@ -1222,7 +1222,7 @@ class StaffDesignationsController extends Controller
         else{
             if($request->type=='ntp')
             {
-                $delete=$staff->ntpayscale()->detach($design_id);
+                $delete=$staff->ntpayscale()->detach($payscale_id);
                 $staff=$staff->load('latestntpayscale');
                // $updatepayscale=$staff->ntpayscale()->updateExistingPivot($staff->latestntpayscale[0]->id,['end_date'=>null,'status'=>'active']);
                 $staff_latest_ntpay=$staff->latestntpayscale()->first();
@@ -1232,8 +1232,8 @@ class StaffDesignationsController extends Controller
             }
             else
             {
-                $delete=$staff->ntcpayscale()->detach($design_id);
-                $staff=staff::load('latestntcpayscale');
+                $delete=$staff->ntcpayscale()->detach($payscale_id);
+                $staff=$staff->load('latestntcpayscale');
                 //$updatepayscale=$staff->ntcpayscale()->updateExistingPivot($staff->latestntcpayscale[0]->id,['end_date'=>null,'status'=>'active']);
                 $staff_latest_ntcpay=$staff->latestntcpayscale()->first();
                 $staff_latest_ntcpay->pivot->end_date=$request->start_date;
@@ -1309,12 +1309,12 @@ public function create_non_vacational_leaves(request $request,staff $staff)
         $staff_vacational_leaves=$staff->leave_staff_entitlements()->get();
         $non_vacational_leaves=leave::where('vacation_type','Non-Vacational')->where('max_entitlement','>',0)->where('shortname','not like','SML%')->where('shortname','not like','ML')->where('status','active')->get();
 
-        foreach($non_vacational_leaves as $nvl)
-        {
-            foreach($staff_vacational_leaves as $svl)
+            foreach($non_vacational_leaves as $nvl)
             {
-                if($nvl->shortname==$svl->shortname && $nvl->shortname!='EL')
+                foreach($staff_vacational_leaves as $svl)
                 {
+                    if($nvl->shortname==$svl->shortname && $nvl->shortname!='EL')
+                    {
 
                     $staff_nvl=$staff->leave_staff_entitlements()->attach($nvl->id,['year'=>$year,'entitled_curr_year'=>$svl->pivot->entitled_curr_year,'accumulated'=>0,'total_encashed'=>0,'consumed_curr_year'=>$svl->pivot->consumed_curr_year,'wef'=>$request->start_date]);
 
@@ -1345,15 +1345,15 @@ public function create_non_vacational_leaves(request $request,staff $staff)
                     break;
                 }
 
-            }
+                }
 
-       }
-       foreach ($staff_vacational_leaves as $svl)
-       {
-            $leave_entitlement = 0;
-            $year = Carbon::now()->year;
-            $startdate = Carbon::createFromFormat('Y-m-d', $year . "-01-01");
-            $no_of_days = floatval($startdate->diffInDays($request->startdate));
+        }
+        foreach ($staff_vacational_leaves as $svl)
+        {
+                $leave_entitlement = 0;
+                $year = Carbon::now()->year;
+                $startdate = Carbon::createFromFormat('Y-m-d', $year . "-01-01");
+                $no_of_days = floatval($startdate->diffInDays($request->startdate));
 
             if ($svl->shortname == 'CL') {
                 $leave_entitlement = round($no_of_days * 15) / 365;
@@ -1368,7 +1368,7 @@ public function create_non_vacational_leaves(request $request,staff $staff)
         }
     }
 
-}
+    }
 
 //
 public function update_additional_desig(Request $request, staff $staff, $design_id)
@@ -1438,10 +1438,10 @@ public function create_vacational_leaves(request $request,staff $staff,$design_i
                 $startdate = Carbon::createFromFormat('Y-m-d', );
 
                 $no_of_days = floatval($startdate->diffInDays($request->startdate));
-                if ($vl->shortname == 'EL')
+                if ($vl1->shortname == 'EL')
                 {
                     $leave_entitlement = round($no_of_days * 344444) / 365;
-                }elseif ($vl->shortname == 'CL'){
+                }elseif ($vl1->shortname == 'CL'){
                     $leave_entitlement = round($no_of_days * 15) / 365;
                 }
 
@@ -1453,9 +1453,9 @@ public function create_vacational_leaves(request $request,staff $staff,$design_i
         }
 
 
-            $vl->pivot->entitled_curr_year = $leave_entitlement;
-            $vl->pivot->status = 'inactive';
-            $svl->pivot->update();
+            $vl1->pivot->entitled_curr_year = $leave_entitlement;
+            $vl1->pivot->status = 'inactive';
+            $vl->pivot->update();
 
     }
 
@@ -1463,20 +1463,20 @@ public function create_vacational_leaves(request $request,staff $staff,$design_i
 
 
     //Destroy additional Designation entry
-public function destroy_additional_desig(Request $request, staff $staff,$additional_design_id)
-{
-       // $additional_design=$staff::with('designations')->newPivotQuery()->where('id',$additional_design_id)->delete();
-     $additional_design=  DB::table('designation_staff')
-          ->where('id', $additional_design_id)
-          ->take(1)
-          ->delete();
-        if($additional_design){
-            $status=1;
-        }
-        else{
-            $status=0;
-        }
-        return redirect('/ESTB/staff/show/'.$staff->id)->with('status',$status);
+    public function destroy_additional_desig(Request $request, staff $staff,$additional_design_id)
+    {
+        // $additional_design=$staff::with('designations')->newPivotQuery()->where('id',$additional_design_id)->delete();
+        $additional_design=  DB::table('designation_staff')
+            ->where('id', $additional_design_id)
+            ->take(1)
+            ->delete();
+            if($additional_design){
+                $status=1;
+            }
+            else{
+                $status=0;
+            }
+            return redirect('/ESTB/staff/show/'.$staff->id)->with('status',$status);
 
     }
 
